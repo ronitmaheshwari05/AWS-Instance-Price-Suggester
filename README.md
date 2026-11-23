@@ -17,19 +17,15 @@ Backend validates the AMI and templates → generates a CloudFormation YAML file
 
 ```
 aws-instance-price-suggester/
-├── backend/
-│   ├── chatbot.py          # AI agent: requirements, selection, output formatting
-│   ├── agent.py            # Agent logic and instance suggestion
-│   ├── pricing.py          # Async AWS pricing lookup and comparison
-│   ├── iac_generator.py    # CloudFormation / AWS CLI script generator
-│   ├── main.py             # Python API entry point
-│   ├── backend.js          # Node.js server
-│   ├── package.json
+├── frontend/                # Python (Streamlit)
+│   ├── app.py               # Streamlit UI
+│   ├── chatbot.py           # AI agent: requirements, selection, formatting
 │   └── requirements.txt
-├── frontend/
-│   ├── index.html          # Chat UI
-│   ├── app.js              # UI logic and API calls
-│   └── style.css
+├── backend/                 # JavaScript (Node.js)
+│   ├── backend.js           # Server / API entry
+│   ├── pricing.js           # Async AWS pricing lookup and comparison
+│   ├── iacGenerator.js      # CloudFormation / AWS CLI script generator
+│   └── package.json
 ├── .env.example
 ├── .gitignore
 └── README.md
@@ -37,28 +33,26 @@ aws-instance-price-suggester/
 
 ## Tech Stack
 
+- **Frontend:** Python, Streamlit
 - **AI Agent:** Python
-- **Backend:** Python, Node.js
-- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Node.js (async API calls)
 - **Cloud:** AWS Pricing API, EC2, CloudFormation, AWS CLI
 
 ## Setup
 
 ```bash
-# Clone the repo
 git clone https://github.com/ronitmaheshwari05/aws-instance-price-suggester.git
 cd aws-instance-price-suggester
+cp .env.example .env   # add your AWS credentials
 
-# Python backend
-cd backend
+# Backend
+cd backend && npm install && node backend.js
+
+# Frontend (new terminal)
+cd frontend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-
-# Node server
-npm install
-
-# Environment variables
-cp ../.env.example ../.env   # add your AWS credentials
+streamlit run app.py
 ```
 
 ## Roadmap
